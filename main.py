@@ -8,26 +8,7 @@ from langchain_community.agent_toolkits.openapi.spec import reduce_openapi_spec
 from langchain_community.utilities import RequestsWrapper
 from langchain_community.agent_toolkits.openapi import planner
 
-
-class EnvChecker:
-    def __init__(self, env_vars):
-        self.env_vars = env_vars
-        dotenv.load_dotenv()
-        self.check_env_vars()
-
-    def check_env_vars(self):
-        for var in self.env_vars:
-            assert os.getenv(var) is not None, f"Environment variable {var} is not set."
-
-
-env_vars = [
-    "INVESTEC_CLIENT_ID",
-    "INVESTEC_CLIENT_SECRET",
-    "INVESTEC_API_KEY",
-    "OPENAI_API_KEY",
-]
-checker = EnvChecker(env_vars)
-checker.check_env_vars()
+dotenv.load_dotenv()
 
 class InvestecAPIClient:
     def __init__(self):
@@ -52,6 +33,7 @@ class InvestecAPIClient:
 
     def get_auth_header(self):
         return {"Authorization": f"Bearer {self.access_token}"}
+
 
 if __name__ == "__main__":
     client = InvestecAPIClient()
